@@ -15,5 +15,6 @@ public class Consts {
 
             ANSI_RESET = "\u001B[0m",
             ANSI_RED = "\u001B[31m",
-            ANSI_GREEN = "\u001B[32m";
+            ANSI_GREEN = "\u001B[32m",
+            ANSI_GREEN_BOLD = "\033[1;32m";
 }

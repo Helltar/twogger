@@ -17,8 +17,8 @@ public class Main {
         while (true) {
             twChannel = scanner.nextLine();
 
-            if (twChannel.length() < 4 || twChannel.length() > 25) {
-                System.out.println(ANSI_RED + "Name must be between 4 and 25 characters, try again:" + ANSI_RESET);
+            if (twChannel.length() < 2 || twChannel.length() > 25) {
+                System.out.println(ANSI_RED + "Name must be between 2 and 25 characters, try again:" + ANSI_RESET);
             } else {
                 break;
             }

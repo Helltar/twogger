@@ -40,22 +40,23 @@ public class Twogger {
         var ircData = twitchIRC.getUpdates();
 
         if (ircData != null) {
-            sendMessage(
-                    sendToTelegram
-                            ? "<b>" + ircData.username() + "</b> 💬 " + Utils.escapeHtml(ircData.message())
-                            : ircData.username() + ": " + ircData.message());
+            sendMessage(ircData.username(), ircData.message());
         }
     }
 
     private void sendMessage(String text) {
+        sendMessage("", text);
+    }
+
+    private void sendMessage(String username, String text) {
         if (sendToTelegram) {
             try {
-                telegram.sendMessage(text);
+                telegram.sendMessage("<b>" + username + "</b> 💬 " + Utils.escapeHtml(text));
             } catch (IOException e) {
                 Logger.add(e);
             }
         } else {
-            Logger.add("twitch_" + twChannel, text);
+            Logger.add("twitch_" + twChannel, username, text);
         }
     }
 }

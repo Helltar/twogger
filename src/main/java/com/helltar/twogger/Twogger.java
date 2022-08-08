@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class Twogger {
 
-    private final String twChannel, twUsername;
+    private final String twChannel;
     private final boolean sendToTelegram;
 
     private final TwitchIRC twitchIRC;
@@ -15,7 +15,6 @@ public class Twogger {
                    boolean sendToTelegram) {
 
         this.twChannel = twChannel;
-        this.twUsername = twUsername;
         this.sendToTelegram = sendToTelegram;
 
         twitchIRC = new TwitchIRC(twChannel, twUsername, twToken);
@@ -26,7 +25,7 @@ public class Twogger {
         try {
             if (twitchIRC.connect()) {
                 if (sendToTelegram) {
-                    telegram.sendMessage("✅ : Logged\n" + "📢 : " + twChannel + "\n" + "😎 : " + twUsername);
+                    telegram.sendMessage("✅ Successful logged\n" + "📢 JOIN #<b>" + twChannel + "</b>");
                 }
 
                 return true;

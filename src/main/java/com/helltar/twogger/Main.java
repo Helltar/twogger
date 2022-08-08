@@ -46,8 +46,7 @@ public class Main {
             var line = new DefaultParser().parse(options, args);
 
             if (line.hasOption(help)) {
-                new HelpFormatter().printHelp(PROJECT_NAME, options);
-                System.exit(0);
+                printHelp(options);
             }
 
             if (line.hasOption(tg)) {
@@ -55,6 +54,7 @@ public class Main {
             }
         } catch (ParseException e) {
             Logger.add(e);
+            printHelp(options);
         }
     }
 
@@ -70,5 +70,10 @@ public class Main {
                 return line;
             }
         }
+    }
+
+    public static void printHelp(Options options) {
+        new HelpFormatter().printHelp(PROJECT_NAME, options);
+        System.exit(0);
     }
 }

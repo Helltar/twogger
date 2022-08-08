@@ -25,13 +25,11 @@ public class Twogger {
     public boolean connect() {
         try {
             if (twitchIRC.connect()) {
-                sendMessage(
-                        "✅ : Logged\n" +
-                                "📢 : " + twChannel + "\n" +
-                                "😎 : " + twUsername);
+                if (sendToTelegram) {
+                    telegram.sendMessage("✅ : Logged\n" + "📢 : " + twChannel + "\n" + "😎 : " + twUsername);
+                }
+
                 return true;
-            } else {
-                sendMessage("❌ : Login error");
             }
         } catch (IOException e) {
             Logger.add(e);
@@ -43,24 +41,21 @@ public class Twogger {
     public void run() throws IOException {
         var ircData = twitchIRC.getUpdates();
 
-        if (ircData != null) {
-            sendMessage(ircData.username(), ircData.message());
+        if (ircData == null) {
+            return;
         }
-    }
 
-    private void sendMessage(String username, String text) {
+        var username = ircData.username();
+        var message = ircData.message();
+
         if (sendToTelegram) {
             try {
-                telegram.sendMessage((username.isEmpty() ? "" : "<b>" + username + "</b> 💬 ") + Utils.escapeHtml(text));
+                telegram.sendMessage("<b>" + username + "</b> 💬 " + Utils.escapeHtml(message));
             } catch (IOException e) {
                 Logger.add(e);
             }
         } else {
-            Logger.add("twitch_" + twChannel, username, text);
+            Logger.add("twitch_" + twChannel, username, message);
         }
-    }
-
-    private void sendMessage(String text) {
-        sendMessage("", text);
     }
 }

@@ -28,21 +28,28 @@ public class Utils {
         }
     }
 
-    public static void sendPost(String[] data, String url, int sleepSec) {
+    public static int sendPost(String[] data, String url, int sleepSec) {
         try {
-            Jsoup.connect(url)
-                    .data(data)
-                    .method(Connection.Method.POST)
-                    .ignoreContentType(true)
-                    .timeout(0)
-                    .execute();
+            var statusCode =
+                    Jsoup.connect(url)
+                            .data(data)
+                            .method(Connection.Method.POST)
+                            .ignoreContentType(true)
+                            .ignoreHttpErrors(true)
+                            .timeout(0)
+                            .execute()
+                            .statusCode();
 
             if (sleepSec > 0) {
                 TimeUnit.SECONDS.sleep(sleepSec);
             }
+
+            return statusCode;
         } catch (IOException | InterruptedException e) {
             Logger.add(e);
         }
+
+        return 0;
     }
 
     public static String escapeHtml(String text) {

@@ -2,6 +2,8 @@ package com.helltar.twogger;
 
 import java.io.IOException;
 
+import static com.helltar.twogger.Consts.TG_CHANNEL_FILE;
+
 public class Telegram {
 
     private final String chatId, token;
@@ -18,6 +20,9 @@ public class Telegram {
                 "text", text
         };
 
-        Utils.sendPost(data, "https://api.telegram.org/" + token + "/sendMessage", 3);
+        switch (Utils.sendPost(data, "https://api.telegram.org/" + token + "/sendMessage", 3)) {
+            case 401, 421 -> Logger.add("Telegram: The token is invalid");
+            case 400 -> Logger.add("Telegram: Bad Request, maybe invalid channel name -> " + TG_CHANNEL_FILE);
+        }
     }
 }

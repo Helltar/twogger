@@ -9,6 +9,7 @@ import static com.helltar.twogger.Utils.getStringFromFile;
 
 public class Main {
 
+    private static String twitchChannel;
     private static boolean sendToTelegram;
 
     public static void main(String[] args) {
@@ -17,7 +18,7 @@ public class Main {
 
         var twogger =
                 new Twogger(
-                        twitchChannelInput().toLowerCase(),
+                        (twitchChannel.isEmpty() ? twitchChannelInput() : twitchChannel).toLowerCase(),
                         getStringFromFile(TWITCH_USERNAME_FILE),
                         getStringFromFile(TWITCH_OAUTH_FILE),
                         getStringFromFile(TG_CHANNEL_FILE),
@@ -40,7 +41,14 @@ public class Main {
         var tg = new Option("tg", "telegram", false, "Send messages to Telegram Channel");
         var help = new Option("h", "help", false, "Print this message");
 
-        var options = new Options().addOption(tg).addOption(help);
+        var channel =
+                Option.builder("channel")
+                        .argName("name")
+                        .hasArg()
+                        .desc("Twitch Channel Name")
+                        .build();
+
+        var options = new Options().addOption(channel).addOption(tg).addOption(help);
 
         try {
             var line = new DefaultParser().parse(options, args);
@@ -51,6 +59,10 @@ public class Main {
 
             if (line.hasOption(tg)) {
                 sendToTelegram = true;
+            }
+
+            if (line.hasOption(channel)) {
+                twitchChannel = line.getOptionValue(channel);
             }
         } catch (ParseException e) {
             Logger.add(e);

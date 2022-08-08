@@ -9,7 +9,7 @@ import static com.helltar.twogger.Utils.getStringFromFile;
 
 public class Main {
 
-    private static String twitchChannel;
+    private static String twitchChannel = "";
     private static boolean sendToTelegram;
 
     public static void main(String[] args) {

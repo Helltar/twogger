@@ -10,7 +10,7 @@ import static com.helltar.twogger.Consts.*;
 public class Logger {
 
     public static void add(String msg) {
-        add("twogger", "", msg);
+        add(PROJECT_NAME, "", msg);
     }
 
     public static void add(Exception e) {

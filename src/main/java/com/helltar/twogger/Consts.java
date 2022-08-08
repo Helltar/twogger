@@ -5,6 +5,7 @@ public class Consts {
     private static final String DIR_CONFIG = "config/";
 
     public static final String
+            PROJECT_NAME = "twogger",
             DIR_LOG = "log/",
             EXT_TXT = ".txt",
 

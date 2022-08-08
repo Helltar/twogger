@@ -22,14 +22,19 @@ public class Twogger {
         telegram = new Telegram(tgChannel, tgToken);
     }
 
-    public boolean connect() throws IOException {
-        if (twitchIRC.connect()) {
-            sendMessage("✅ : Logged\n" +
-                            "📢 : " + twChannel + "\n" +
-                            "😎 : " + twUsername);
-            return true;
-        } else {
-            sendMessage("❌ : Login error");
+    public boolean connect() {
+        try {
+            if (twitchIRC.connect()) {
+                sendMessage(
+                        "✅ : Logged\n" +
+                                "📢 : " + twChannel + "\n" +
+                                "😎 : " + twUsername);
+                return true;
+            } else {
+                sendMessage("❌ : Login error");
+            }
+        } catch (IOException e) {
+            Logger.add(e);
         }
 
         return false;

@@ -18,9 +18,7 @@ public class Logger {
     }
 
     public static void add(String filename, String username, String msg) {
-        if (!new File(DIR_LOG).exists()) {
-            new File(DIR_LOG).mkdir();
-        }
+        new File(DIR_LOG).mkdir();
 
         var t = new SimpleDateFormat("HH:mm:ss ").format(new Date());
 

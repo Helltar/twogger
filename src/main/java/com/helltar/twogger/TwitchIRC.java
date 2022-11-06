@@ -2,6 +2,7 @@ package com.helltar.twogger;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.regex.Pattern;
 
 public class TwitchIRC {
 
@@ -56,8 +57,16 @@ public class TwitchIRC {
         var line = reader.readLine();
 
         if (line.contains("PRIVMSG")) {
-            var username = line.replaceAll("(.*)@(.*).tmi.twitch.tv(.*)", "$2");
-            var message = line.replaceAll("(.*)PRIVMSG #(.*) :(.*)", "$3");
+            var username = "";
+            var message = "";
+
+            var m = Pattern.compile(":(.+?)!.+?:(.+)").matcher(line);
+
+            while (m.find()) {
+                username = m.group(1);
+                message = m.group(2);
+            }
+
             return new IRCData(username, message);
         } else {
             if (line.startsWith("PING :tmi.twitch.tv")) {

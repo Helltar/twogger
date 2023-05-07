@@ -18,11 +18,15 @@ public class Logger {
     }
 
     public static void add(String filename, String username, String msg) {
-        new File(DIR_LOG).mkdir();
+        var logDir = new File(DIR_LOG);
 
-        var t = new SimpleDateFormat("HH:mm:ss ").format(new Date());
+        if (!logDir.exists())
+            if (!logDir.mkdir())
+                return;
 
-        System.out.println(t + ANSI_GREEN_BOLD + username + ANSI_RESET + ": " + msg);
-        Utils.appendStringToFile(DIR_LOG + filename + "_" + LocalDate.now() + EXT_TXT, t + username + ": " + msg);
+        var time = new SimpleDateFormat("HH:mm:ss ").format(new Date());
+
+        System.out.println(time + ANSI_GREEN_BOLD + username + ANSI_RESET + ": " + msg);
+        Utils.appendStringToFile(DIR_LOG + filename + "_" + LocalDate.now() + EXT_TXT, time + username + ": " + msg);
     }
 }
